@@ -5,8 +5,8 @@ Aplikacja służy do nauki pytań testowych, które program pozyskuje z odpowied
 ## Przygotowanie pliku
 
 Na początku należy przygotować odpowiednio pytania w dowolnym edytorze tekstowym
-'''
 
+```
 1. Pytanie
    a. odp 1
    b. odp 2
@@ -17,4 +17,4 @@ Na początku należy przygotować odpowiednio pytania w dowolnym edytorze teksto
    a. odp 1
    b. odp 2
    c. odp 3
-   '''
+```
