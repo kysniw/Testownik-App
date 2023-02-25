@@ -1,6 +1,15 @@
-let input, btn, p, container;
+let chooseFileInput,
+  chooseFileBtn,
+  chooseFileText,
+  chooseFileContainer,
+  questionTitle,
+  questionContainer,
+  answersField,
+  buttonNext,
+  buttonPrev;
 let questionObjects = [];
 let questions;
+let questionIndex = 0;
 
 const main = () => {
   prepareDOMElements();
@@ -8,49 +17,59 @@ const main = () => {
 };
 
 const prepareDOMElements = () => {
-  container = document.querySelector(".container");
-  input = document.querySelector("input[type=file]");
-  btn = document.querySelector("button");
-  p = document.querySelector("p");
+  chooseFileContainer = document.querySelector(".choose-file");
+  chooseFileInput = document.querySelector(".choose-file__input");
+  chooseFileBtn = document.querySelector(".choose-file__button");
+  chooseFileText = document.querySelector(".choose-file__text");
+  questionContainer = document.querySelector(".exam-body");
+  questionTitle = document.querySelector(".exam-body__question");
+  answersField = document.querySelector(".exam-body__answers");
+  buttonNext = document.querySelector(".exam-body__next");
+  buttonPrev = document.querySelector(".exam-body__prev");
 };
 
 const prepareDOMEvents = () => {
-  input.addEventListener("change", onInputFileChange);
-  btn.addEventListener("click", confirmTestFile);
+  chooseFileInput.addEventListener("change", onInputFileChange);
+  chooseFileBtn.addEventListener("click", confirmTestFile);
+  buttonNext.addEventListener("click", nextQuestion);
 };
 
 const onInputFileChange = () => {
-  const [file] = input.files;
-  if (file) p.innerText = file.name;
-  else p.innerText = "Nie wybrałeś pliku!";
+  const [file] = chooseFileInput.files;
+  if (file) chooseFileText.innerText = file.name;
+  else chooseFileText.innerText = "Nie wybrałeś pliku!";
 };
 
 const confirmTestFile = () => {
-  const [file] = input.files;
+  const [file] = chooseFileInput.files;
   if (!file) {
-    p.innerText = "Wybierz plik do przesłania!";
+    chooseFileText.innerText = "Wybierz plik do przesłania!";
     return;
   }
   const reader = new FileReader();
   console.log(file);
-  reader.addEventListener("load", () => {
-    // p.innerText = reader.result;
-    questions = reader.result.split(/[0-9]+[.]/g);
-    questions.shift();
-    questions = questions.map((question, i) => `${i}.` + question);
-    console.log(questions);
-    questionsToObjects();
-    console.log(questionObjects[1]);
-    if (questionObjects.length > 0) {
-      console.log(container);
-      container.style.display = "none";
-    }
-  });
   reader.readAsText(file);
+  reader.addEventListener("load", () => loadQuestions(reader));
+  reader.addEventListener("loadend", loadEndQuestions);
+};
 
-  console.log(questionObjects[3]);
+const loadQuestions = async (reader) => {
+  questions = reader.result.split(/[0-9]+[.]/g);
+  questions.shift();
+  questions = questions.map((question, i) => `${i}.` + question);
 
+  questionsToObjects();
+};
+
+const loadEndQuestions = () => {
   console.log(questionObjects);
+
+  if (questionObjects.length > 0) {
+    chooseFileContainer.classList.add("hide");
+    questionContainer.classList.remove("hide");
+
+    loadQuestionContent(0);
+  }
 };
 
 const questionsToObjects = () => {
@@ -75,7 +94,27 @@ const questionsToObjects = () => {
       questionObjects.push({ question: quest, corrAnswer: cAn, answers: ans });
     });
   } else {
-    p.innerText = "Ups! Coś poszło nie tak...";
+    chooseFileText.innerText = "Ups! Coś poszło nie tak...";
+  }
+};
+
+const loadQuestionContent = (questionNumber) => {
+  answersField.innerHTML = "";
+  questionTitle.textContent = questionObjects[questionNumber].question;
+
+  questionObjects[questionNumber].answers.forEach((answer, index) => {
+    const ans = `<div class="exam-body__answer-group">
+    <input type="radio" name="answer" id="${index}" value="${answer}" />
+    <label for="${index}">${answer}</label>
+  </div>`;
+    answersField.innerHTML += ans;
+  });
+};
+
+const nextQuestion = () => {
+  if (questionIndex < questionObjects.length - 1) {
+    questionIndex++;
+    loadQuestionContent(questionIndex);
   }
 };
 

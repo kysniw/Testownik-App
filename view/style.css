@@ -5,7 +5,13 @@
 }
 
 body {
-  background-color: #ccc;
+  background: rgb(131, 58, 180);
+  background: linear-gradient(
+    162deg,
+    rgb(20, 158, 117) 0%,
+    rgb(100, 194, 170) 50%,
+    rgb(182, 238, 224) 100%
+  );
   font-family: sans-serif;
   display: flex;
   flex-direction: column;
@@ -15,10 +21,11 @@ body {
   align-items: center;
 }
 
-.container {
+.choose-file,
+.exam-body {
   display: flex;
   flex-direction: column;
-  background-color: #6d6c6c;
+  background-color: #e0eee9;
   width: 70%;
   height: 70%;
   border-radius: 5px;
@@ -27,7 +34,7 @@ body {
   box-shadow: 1px 1px 5px black;
 }
 
-label {
+.choose-file__label {
   border: 3px solid whitesmoke;
   color: whitesmoke;
   border-radius: 5px;
@@ -35,17 +42,17 @@ label {
   transition: 0.3s;
 }
 
-label:hover {
+.choose-file__label:hover {
   color: #6d6c6c;
   background-color: whitesmoke;
   cursor: pointer;
 }
 
-input[type="file"] {
+.choose-file__input {
   display: none;
 }
 
-button {
+.choose-file__button {
   display: block;
   color: whitesmoke;
   border: 3px solid whitesmoke;
@@ -56,8 +63,12 @@ button {
   transition: 0.3s;
 }
 
-button:hover {
+.choose-file__button:hover {
   background-color: whitesmoke;
   color: #6d6c6c;
   cursor: pointer;
+}
+
+.hide {
+  display: none;
 }

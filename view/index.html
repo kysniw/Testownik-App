@@ -16,11 +16,28 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <label for="test-file">Wybierz przygotowany plik do nauki</label>
-      <input type="file" id="test-file" name="test-file" />
-      <p>Nie wybrano żadnego pliku.</p>
-      <button>Prześlij</button>
+    <div class="choose-file">
+      <label class="choose-file__label" for="test-file"
+        >Wybierz przygotowany plik do nauki</label
+      >
+      <input
+        class="choose-file__input"
+        type="file"
+        id="test-file"
+        name="test-file"
+      />
+      <p class="choose-file__text">Nie wybrano żadnego pliku.</p>
+      <button class="choose-file__button">Prześlij</button>
+    </div>
+
+    <div class="exam-body hide">
+      <h1 class="exam-body__question">Pytanie numer 1</h1>
+      <div class="exam-body__answers"></div>
+
+      <div class="exam-body__nav">
+        <button class="button__exam exam-body__prev">Poprzednie</button>
+        <button class="button__exam exam-body__next">Następne</button>
+      </div>
     </div>
 
     <script src="./script.js"></script>
